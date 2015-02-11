@@ -1,0 +1,270 @@
+@s0:65px;
+@s1:45px;
+@s2:30px;
+@s3:20px;
+@s4:15px;
+@cL:Lavender;
+@cD:steelBlue;
+@tL:#666;
+@tM:rgba(0,0,0,0.2);
+@tD:#222;
+@font-face{
+	font-family:openSansLight;
+	font-style:normal;
+	font-weight:normal;
+	src:url(../font/openSansLight.ttf);
+}
+*,body{
+	box-sizing:border-box;
+	color:@tD;
+	font-family:openSansLight;
+	font-size:@s3;
+	line-height:1;
+	position:relative;
+	text-align:center;
+	-webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+body{
+	background-image:url(../img/background.png);
+	#ui-datepicker-div{
+		box-shadow:0 0 @s4 @s4 @tM;
+		width:auto;
+		*{
+			font-size:@s4;
+		}
+		td>a{
+			display:table-cell;
+		}
+		select{
+			box-shadow:none;
+		}
+		td a,th{
+			height:35px;
+			text-align:center;
+			vertical-align:middle;
+			width:35px;
+		}
+	}
+	.ui-autocomplete{
+		*{
+			font-family:openSansLight;
+			font-size:@s3;
+			font-weight:normal !important;
+			line-height:2;
+		}
+	}
+}
+button,input{
+	display:block;
+	padding:@s4;
+}
+button{
+	background-color:@cD;
+	color:white;
+	font-weight:bold;
+	width:100%;
+}
+header{
+	background-color:@cD;
+	box-shadow:0 0 @s4 @s4 @tM;
+	overflow:auto;
+	div{
+		align-items:center;
+		color:white;
+		cursor:pointer;
+		display:flex;
+		height:@s0;
+		padding:0 @s4;
+		&#logo{
+			background:linear-gradient(to right,@tM,transparent);
+			float:left;
+			font-weight:bold;
+			font-size:@s1;
+		}
+		&.button{
+			float:right;
+			&:hover{
+				background-color:@tM;
+			}
+			&.active{
+				background-color:@tL;
+			}
+		}
+	}
+}
+input{
+	border:0;
+	box-shadow:0 0 0 2px @tM inset;
+	color:@tL;
+	-webkit-touch-callout:text;
+    -webkit-user-select:text;
+    -khtml-user-select:text;
+    -moz-user-select:text;
+    -ms-user-select:text;
+	margin-bottom:@s4;
+    user-select:none;
+    width:400px;
+    &:hover{
+		box-shadow:0 0 0 2px @cD inset;
+    }
+    &.focus{
+		box-shadow:0 0 0 2px @cD inset;
+		color:@tD;
+	}
+}
+select{
+	background-color:white;
+	border:0;
+	box-shadow:0 0 0 2px @cD inset;
+	color:@tD;
+	font-weight:normal;
+}
+#wrapper{
+	align-items:center;
+	display:flex;
+	flex-direction:column;
+	justify-content: center;
+	padding:@s4;
+	&.addStaff{
+		form{
+			background-color:@cL;
+			box-shadow:0 0 @s4 @s4 @tM;
+			margin:@s2 0;
+			>table{
+				border-collapse:separate;
+				border-spacing:@s4;
+			}
+			td{
+				vertical-align:middle;
+				&.label{
+					background-color:@cD;
+					color:white;
+					font-size:@s4;
+					line-height:1.2;
+					width:200px;
+				}
+				input,>select{
+					line-height:1.5;
+					margin:0;
+					padding:calc(@s4/2);
+				}
+				>select{
+					line-height:1;
+					width:400px;
+				}
+			}
+			.alert{
+				margin:0;
+			}
+		}
+	}
+	&.loggedIn{
+		.stat{
+			background-color:white;
+			box-shadow:0 0 @s4 @s4 @tM;
+			display:inline-block;
+			margin:@s2;
+			td{
+				vertical-align:middle;
+				width:200px;
+				&.key{
+					background-color:@cD;
+					color:white;
+					height:75px;
+					line-height:1.5;
+				}
+				&.val{
+					color:@tD;
+					font-size:@s0;
+					height:125px;
+				}
+			}
+		}
+	}
+	&.login,&.manageRecords,&.updatePassword{
+		form{
+			background-color:@cL;
+			box-shadow:0 0 @s4 @s4 @tM;
+			padding:@s4;
+			button{
+				padding:@s4;
+			}
+			input{
+				font-size:@s2;
+			}
+		}
+	}
+	&.manageRecords{
+		form{
+			margin:@s4;
+			.stats{
+				background-color:grey !important;
+			}
+			.print{
+				background-color:forestGreen;
+				cursor:pointer;
+			}
+			input{
+				margin:0;
+				width:600px;
+			}
+		}
+		.result{
+			background-color:white;
+			box-shadow:0 0 @s4 @s4 @tM;
+			display:inline-block;
+			margin:@s4;
+			.delete{
+				background-color:crimson;
+				color:white;
+				cursor:pointer;
+				font-size:@s4;
+				padding:calc(@s4/2);
+			}
+			.name{
+				background-color:@cD;
+				color:white;
+				font-size:@s2;
+				padding:calc(@s4/2);
+			}
+			.others{
+				div{
+					padding:calc(@s4/2);
+				}
+				.key{
+					background-color:@cD;
+					color:white;
+					font-size:@s4;
+				}
+			}
+		}
+	}
+	&.welcome{
+		.heading{
+			color:@tD;
+			font-size:@s0;
+			font-weight:bold;
+			padding:@s4 0;
+		}
+		.subHeading{
+			color:grey;
+			font-size:@s2
+		}
+	}
+	.alert{
+		background-color:crimson;
+		color:white;
+		font-size:@s4;
+		font-weight:bold;
+		line-height:2;
+		margin-top:@s4;
+	}
+}
+.hidden{
+	display:none;
+}

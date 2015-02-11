@@ -1,0 +1,14 @@
+<div id="title" class="hidden"><?php echo $page["title"]; ?> | Staff Data Manager</div>
+<header>
+	<?php if($page["loggedIn"]){ ?>
+		<div id="logo" data-href="loggedIn">sDM</div>
+		<div class="button" data-href="logout">Logout</div>
+		<div class="button" data-href="updatePassword">Update Password</div>
+		<div class="button" data-href="manageRecords">Manage Records</div>
+		<div class="button" data-href="addStaff">Add Staff</div>
+	<?php } else { ?>
+		<div id="logo" data-href="welcome">sDM</div>
+		<div class="button" data-href="login">Login</div>
+	<?php } ?>
+</header>
+<div id="wrapper" class="<?php echo $page["name"] ?>">

@@ -1,0 +1,25 @@
+<?php
+$checks=explode(",","serial_number,".SEARCH_COLUMNS);
+$page["stats"]=[];
+foreach($checks as $check){
+	$page["stats"][$check]=$page["db"]->query("SELECT COUNT(DISTINCT {$check}) FROM sdm_staff");
+	if($page["stats"][$check]->num_rows==0){
+		$page["stats"][$check]=0;
+	} else {
+		$page["stats"][$check]=$page["stats"][$check]->fetch_row()[0];
+	}
+}
+$alt=["total_record(s)"=>"serial_number","names"=>"name","designations"=>"designation","educational_qualifications"=>"educational_qualification","districts / subdivisions"=>"district_or_subdivision"];
+foreach($alt as $key=>$val){
+	$page["stats"][$key]=$page["stats"][$val];
+	unset($page["stats"][$val]);
+}
+?>
+<div id="statsContainer">
+	<?php foreach($page["stats"] as $key=>$val) { ?>
+		<table class="stat">
+			<tr><td class="key"><?php echo ucwords(str_replace("_"," ",$key)); ?></td></tr>
+			<tr><td class="val"><?php echo $val; ?></td></tr>
+		</table>
+	<?php } ?>
+</div>

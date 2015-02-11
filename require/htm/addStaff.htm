@@ -1,0 +1,85 @@
+<?php
+$error=false;
+if(!empty($page["field"])){
+	ob_clean();
+	$words=$page["db"]->query("SELECT DISTINCT {$page["field"]} FROM sdm_staff WHERE {$page["field"]} LIKE '%{$page["term"]}%' LIMIT 5");
+	if($words->num_rows!=0){
+		$words=fetch_all($words);
+		foreach($words as $key=>$row){
+			$words[$key]=$row[0];
+		}
+	} else {
+		$words=[];
+	}
+	echo json_encode($words);
+	die();
+}
+if(!empty($page["req"]) && !empty($page["opt"])){
+	foreach($page["req"] as $key=>$value){
+		if(empty($value)){
+			goto ERROR;
+		}
+	}
+	foreach($page["opt"] as $key=>$value){
+		if(empty($value)){
+			unset($page["opt"][$key]);
+			continue;
+		}
+		$page["req"][$key]=$value;
+	}
+	$keys=[];
+	$values=[];
+	foreach($page["req"] as $key=>$value){
+		array_push($keys,$key);
+		preg_match("/^[0-9]{2}-[0-9]{2}-[0-9]{4}$/",$value,$match);
+		if(count($match)==1){
+			$value=preg_replace("/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/","$3-$2-$1",$value);
+		}
+		preg_match("/^[0-9]$/",$value,$match);
+		if(count($match)==1){
+			$value=(int)$value;
+		}
+		if(is_string($value)){
+			$value="'".$page["db"]->real_escape_string($value)."'";
+		}
+		array_push($values,$value);
+	}
+	$keys=implode(",",$keys);
+	$values=implode(",",$values);
+	$page["db"]->query("INSERT INTO sdm_staff({$keys}) VALUES({$values})");
+	if($page["db"]->errno){
+		goto ERROR;
+	}
+	$page["name"]="loggedIn";
+	render($page,$ajax);
+	ERROR:
+	$error=true;
+}
+?>
+<form action="addStaff">
+	<input type="hidden" name="name" value="addStaff">
+	<table>
+		<tr><td class="label">Name</td><td><input type="text" name="req[name]"></td></tr>
+		<tr><td class="label">Designation</td><td><input type="text" name="req[designation]" data-type="auto" data-name="designation"></td></tr>
+		<tr><td class="label">Address</td><td><input type="text" name="opt[address]" data-ignore="ignore"></td></tr>
+		<tr><td class="label">Date of Birth</td><td><input type="text" name="req[date_of_birth]" data-type="date"></td></tr>
+		<tr><td class="label">Educational Qualification<br>(As in Service Book)</td><td><input type="text" name="req[educational_qualification]" data-type="auto" data-name="educational_qualification"></td></tr>
+		<tr><td class="label">Date of Appointment</td><td><input type="text" name="req[date_of_appointment]" data-type="date"></td></tr>
+		<tr><td class="label">Date of Confirmation in Service</td><td><input type="text" name="req[date_of_confirmation_in_service]" data-type="date"></td></tr>
+		<tr><td class="label">Date of Appointment & Joining in Present Post</td><td><input type="text" name="req[date_of_appointment_and_joining_in_present_post]" data-type="date"></td></tr>
+		<tr><td class="label">Date of Joining in Present Office</td><td><input type="text" name="req[date_of_joining_in_present_office]" data-type="date"></td></tr>
+		<tr><td class="label">Name of Previous Office</td><td><input type="text" name="opt[name_of_previous_office]" data-type="auto" data-name="name_of_previous_office" data-ignore="ignore"></td></tr>
+		<tr><td class="label">Date of Joining in Previous Office</td><td><input type="text" name="opt[date_of_joining_in_previous_office]" data-type="date" data-ignore="ignore"></td></tr>
+		<tr><td class="label">Served in North Bengal</td><td><select name="opt[served_in_north_bengal]">
+			<option value="">Not Available</option>
+			<option value=1>Yes</option>
+			<option value=0>No</option>
+		</td></select></tr>
+		<tr><td class="label">District or Subdivision</td><td><input type="text" name="req[district_or_subdivision]" data-type="auto" data-name="district_or_subdivision"></td></tr>
+		<tr><td colspan=2><button type="submit">Add</button></td></tr>
+		<?php if($error){ ?>
+			<tr><td colspan=2><div class="alert">Staff Information Was Not Added</div></td></tr>
+		<?php }?>
+	</table>
+</form>
+<div class="datePicker hidden"></div>
